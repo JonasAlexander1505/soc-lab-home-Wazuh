@@ -58,7 +58,6 @@ Este projeto documenta a criação de um laboratório de SOC (Security Operation
 |-----------|--------|--------|
 | VirtualBox | 7.0.22 | Hypervisor |
 | Wazuh | 4.7.5 | SIEM / XDR |
-| Suricata | 7.0 | IDS/IPS de rede |
 | Kali Linux | 2025.4 | Pentesting |
 | Metasploitable | 2 | Alvo vulnerável |
 | Ubuntu Server | 22.04 LTS | Host do SIEM |
@@ -172,47 +171,6 @@ msiexec.exe /i ${env:tmp}\wazuh-agent /q `
 # Iniciar serviço
 NET START WazuhSvc
 ```
-
----
-
-## 🛡️ Instalação do Suricata IDS
-
-```bash
-# Instalar
-sudo apt install suricata -y
-
-# Configurar interface de rede
-sudo nano /etc/suricata/suricata.yaml
-# Alterar: - interface: enp0s3
-
-# Atualizar regras
-sudo suricata-update
-
-# Habilitar e iniciar
-sudo systemctl enable suricata
-sudo systemctl start suricata
-```
-
-### Integrar Suricata com Wazuh
-
-```bash
-sudo nano /var/ossec/etc/ossec.conf
-```
-
-Adicionar antes de `</ossec_config>`:
-
-```xml
-<localfile>
-  <log_format>json</log_format>
-  <location>/var/log/suricata/eve.json</location>
-</localfile>
-```
-
-```bash
-sudo systemctl restart wazuh-manager
-```
-
----
 
 ## 🔴 Ataques Simulados
 
